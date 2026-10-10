@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Defaults for first paint. src/config/brand.ts overrides these at startup. */
+:root {
+  --c-ink: 12 26 22;
+  --c-surface: 19 34 30;
+  --c-raised: 27 46 40;
+  --c-line: 43 65 57;
+  --c-bone: 239 233 221;
+  --c-muted: 157 174 165;
+  --c-accent: 201 162 93;
+  --c-accent-ink: 20 16 10;
+  --c-sale: 226 87 76;
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-body: 'Hanken Grotesk', system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ink font-body text-bone antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display font-normal tracking-tight;
+  }
+  :focus-visible {
+    outline: 2px solid rgb(var(--c-accent));
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: rgb(var(--c-accent) / 0.35);
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-[1280px] px-5 sm:px-8;
+  }
+  .btn {
+    @apply inline-flex select-none items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition duration-200 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply bg-accent text-accent-ink hover:brightness-110;
+  }
+  .btn-outline {
+    @apply border border-line text-bone hover:border-bone/50 hover:bg-bone/5;
+  }
+  .btn-dark {
+    @apply bg-ink text-bone hover:bg-ink/80;
+  }
+  .btn-sm {
+    @apply px-4 py-2 text-xs;
+  }
+  .input {
+    @apply w-full rounded-xl border border-line bg-surface px-4 py-3 text-sm text-bone transition placeholder:text-muted/70 focus:border-accent focus:outline-none;
+  }
+  .input-error {
+    @apply border-sale focus:border-sale;
+  }
+  .card {
+    @apply rounded-2xl border border-line bg-surface;
+  }
+  .link-muted {
+    @apply text-muted transition hover:text-bone;
+  }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(32px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slide-r {
+  from { transform: translateX(100%); }
+  to { transform: none; }
+}
+@keyframes slide-l {
+  from { transform: translateX(-100%); }
+  to { transform: none; }
+}
+@keyframes pop {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.anim-rise { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.anim-fade { animation: fade 0.25s ease both; }
+.anim-slide-r { animation: slide-r 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.anim-slide-l { animation: slide-l 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.anim-pop { animation: pop 0.25s ease both; }
+.skeleton {
+  background: linear-gradient(90deg, rgb(var(--c-raised)) 25%, rgb(var(--c-line)) 50%, rgb(var(--c-raised)) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+.spinner {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: spin 0.7s linear infinite;
+}
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
